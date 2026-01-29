@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidden Bug Demo</title>
+    <style>
+        body { font-family: sans-serif; padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background-color: #f0f2f5; }
+        .card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        button { background-color: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 1rem; margin-top: 1rem; transition: background 0.3s; }
+        button:hover { background-color: #2563eb; }
+        #status { margin-top: 1rem; font-weight: bold; min-height: 1.5rem; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Frontend Bug Demo</h1>
+        <p>This button works (updates UI) but throws a silent error.</p>
+        <div id="status">Waiting...</div>
+        <button id="action-btn">Load Data</button>
+    </div>
+
+    <script>
+        document.getElementById('action-btn').addEventListener('click', () => {
+            // Update UI - The test will see this and think everything is fine
+            document.getElementById('status').textContent = 'Data Loaded Successfully!';
+            
+            // Silent error - Users won't see this immediately, but it's bad!
+            console.error("CRITICAL: Failed to fetch analytics configuration. ReferenceError: analytics is not defined at clickHandler (index.html:25)");
+            
+            // Maybe another one just for fun
+            console.error("API Error: 500 Internal Server Error - /api/tracking");
+        });
+    </script>
+</body>
+</html>

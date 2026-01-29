@@ -1,0 +1,23 @@
+{
+  "name": "playwright-console-error-demo",
+  "version": "1.0.0",
+  "description": "Demo of catching console errors in Playwright tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui"
+  },
+  "keywords": [
+    "playwright",
+    "testing",
+    "qa",
+    "automation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.41.0",
+    "@types/node": "^20.11.0",
+    "http-server": "^14.1.1"
+  }
+}
