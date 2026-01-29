@@ -877,10 +877,8 @@ body {
 /* Interaction Hint Overlay */
 .hint-overlay {
     position: absolute;
-    top: 220px;
-    /* Moved UP closer to button */
-    right: 90px;
-    /* Moved RIGHT closer to button */
+    top: 180px;
+    right: 80px;
     pointer-events: none;
     z-index: 9999;
     display: flex;
@@ -891,16 +889,13 @@ body {
 }
 
 .hint-arrow {
-    width: 60px;
-    /* Slightly smaller arrow */
-    height: 60px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23ef4444' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M30,80 Q30,30 80,30' marker-end='url(%23arrowhead)'/%3E%3Cdefs%3E%3Cmarker id='arrowhead' markerWidth='8' markerHeight='6' refX='7' refY='3' orient='auto'%3E%3Cpolygon points='0 0, 8 3, 0 6' fill='%23ef4444'/%3E%3C/marker%3E%3C/defs%3E%3C/svg%3E");
+    width: 80px;
+    height: 120px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23ef4444' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20,95 Q30,10 90,10' marker-end='url(%23arrowhead)'/%3E%3Cdefs%3E%3Cmarker id='arrowhead' markerWidth='8' markerHeight='6' refX='7' refY='3' orient='auto'%3E%3Cpolygon points='0 0, 8 3, 0 6' fill='%23ef4444'/%3E%3C/marker%3E%3C/defs%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: center;
-    margin-bottom: -20px;
-    /* Pull text up towards arrow */
-    margin-right: -40px;
-    /* Tilt visual center */
+    margin-bottom: -30px;
+    margin-right: -50px;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
