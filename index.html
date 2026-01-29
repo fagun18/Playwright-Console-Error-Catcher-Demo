@@ -4,125 +4,278 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playwright Console Guard - Interactive Demo</title>
+    <title>Playwright Console Guard - Pro Demo</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2">
-    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="style.css?v=3">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
 
-    <!-- Main Workspace Container -->
     <div class="workspace">
 
-        <!-- LEFT PANEL: The IDE (VS Code Style) -->
+        <!-- LEFT PANEL: VS Code Simulator -->
         <div class="ide-panel">
-            <div class="ide-header">
+            <div class="ide-title-bar">
                 <div class="window-controls">
                     <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
                 </div>
-                <div class="tab inactive">explorer</div>
-                <div class="tab active"><i class="fa-solid fa-file-code"></i> console-error.spec.ts</div>
+                <div class="ide-title-text">console-error.spec.ts - playwright-demo - Visual Studio Code</div>
             </div>
 
-            <div class="ide-body">
-                <div class="line-numbers">
-                    1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15
+            <div class="ide-main-area">
+                <!-- Activity Bar (Far Left) -->
+                <div class="activity-bar">
+                    <div class="icon active"><i class="fa-regular fa-file"></i></div>
+                    <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <div class="icon"><i class="fa-solid fa-code-branch"></i></div>
+                    <div class="icon"><i class="fa-solid fa-play"></i></div>
+                    <div class="icon spacer"></div>
+                    <div class="icon"><i class="fa-solid fa-gear"></i></div>
                 </div>
-                <!-- Code Snippet -->
-                <pre class="code-content"><code class="language-typescript"><span class="keyword">test</span>.<span class="function">describe</span>(<span class="string">'Frontend Guard'</span>, () => {
-  <span class="keyword">const</span> errors = [];
 
-  <span class="comment">// 1. Listen for console errors</span>
+                <!-- Explorer Sidebar -->
+                <div class="explorer-sidebar">
+                    <div class="sidebar-header">EXPLORER</div>
+
+                    <div class="file-tree">
+                        <div class="tree-item folder closed"><i class="fa-solid fa-chevron-right"></i>
+                            <span>node_modules</span></div>
+                        <div class="tree-item folder open"><i class="fa-solid fa-chevron-down"></i> <span>src</span>
+                        </div>
+                        <div class="tree-children">
+                            <div class="tree-item file"><i class="fa-brands fa-js js-icon"></i> <span>api.js</span>
+                            </div>
+                            <div class="tree-item file"><i class="fa-brands fa-js js-icon"></i> <span>utils.js</span>
+                            </div>
+                        </div>
+
+                        <div class="tree-item folder open"><i class="fa-solid fa-chevron-down"></i> <span>tests</span>
+                        </div>
+                        <div class="tree-children">
+                            <div class="tree-item file"><i class="fa-solid fa-flask text-purple"></i>
+                                <span>auth.spec.ts</span></div>
+                            <div class="tree-item file active"><i class="fa-solid fa-flask text-purple"></i>
+                                <span>console-error.spec.ts</span></div>
+                            <div class="tree-item file"><i class="fa-solid fa-flask text-purple"></i>
+                                <span>payment.spec.ts</span></div>
+                            <div class="tree-item file"><i class="fa-solid fa-flask text-purple"></i>
+                                <span>user-profile.test.ts</span></div>
+                        </div>
+
+                        <div class="tree-item file"><i class="fa-brands fa-npm text-red"></i> <span>package.json</span>
+                        </div>
+                        <div class="tree-item file"><i class="fa-solid fa-gear text-blue"></i>
+                            <span>playwright.config.ts</span></div>
+                        <div class="tree-item file"><i class="fa-brands fa-markdown text-blue"></i>
+                            <span>README.md</span></div>
+                    </div>
+                </div>
+
+                <!-- Editor Area -->
+                <div class="editor-area">
+                    <div class="editor-tabs">
+                        <div class="tab active">
+                            <i class="fa-solid fa-flask text-purple"></i>
+                            console-error.spec.ts
+                            <i class="fa-solid fa-xmark close-tab"></i>
+                        </div>
+                        <div class="tab">
+                            <i class="fa-brands fa-js js-icon"></i>
+                            utils.js
+                        </div>
+                    </div>
+
+                    <div class="editor-content">
+                        <div class="line-numbers">
+                            1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18
+                        </div>
+                        <pre class="code-view"><code class="language-typescript"><span class="keyword">import</span> { <span class="function">test</span>, <span class="function">expect</span> } <span class="keyword">from</span> <span class="string">'@playwright/test'</span>;
+
+<span class="keyword">test</span>.<span class="function">describe</span>(<span class="string">'Frontend Robustness Guard'</span>, () => {
+  <span class="keyword">const</span> consoleErrors = [];
+
+  <span class="comment">// 1. Setup Global Console Listener</span>
   <span class="keyword">test</span>.<span class="function">beforeEach</span>(<span class="keyword">async</span> ({ page }) => {
     page.<span class="function">on</span>(<span class="string">'console'</span>, <span class="param">msg</span> => {
 <div class="code-highlight" id="code-listener">      <span class="keyword">if</span> (msg.<span class="function">type</span>() === <span class="string">'error'</span>) {
-        errors.<span class="function">push</span>(msg.<span class="function">text</span>());
+        consoleErrors.<span class="function">push</span>(msg.<span class="function">text</span>());
       }</div>    });
   });
 
-  <span class="comment">// 2. Fail test if errors found</span>
+  <span class="comment">// 2. Fail Test On Any "Silent" Errors</span>
   <span class="keyword">test</span>.<span class="function">afterEach</span>(() => {
-<div class="code-highlight" id="code-fail">    <span class="keyword">if</span> (errors.<span class="property">length</span> > 0) {
-      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">`Caught ${errors.length} errors!`</span>);
+<div class="code-highlight" id="code-fail">    <span class="keyword">if</span> (consoleErrors.<span class="property">length</span> > 0) {
+      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">`Test Failed! Caught ${consoleErrors.length} console errors.`</span>);
     }</div>  });
 });</code></pre>
-            </div>
+                    </div>
 
-            <!-- Fake Terminal -->
-            <div class="terminal-panel">
-                <div class="terminal-header">
-                    <span>TERMINAL</span>
-                    <span>DEBUG CONSOLE</span>
-                </div>
-                <div class="terminal-output" id="terminal-log">
-                    <div class="term-line">><span class="path"> user@dev </span> <span class="cmd">npx playwright
-                            test</span></div>
-                    <div class="term-line info">Running 1 test using 1 worker...</div>
-                    <div class="term-line"> [chromium] › console-error.spec.ts:25 › Frontend Guard</div>
+                    <!-- Integrated Terminal -->
+                    <div class="terminal-pane">
+                        <div class="terminal-header-bar">
+                            <span class="active">TERMINAL</span>
+                            <span>OUTPUT</span>
+                            <span>DEBUG CONSOLE</span>
+                            <span>PROBLEMS</span>
+                        </div>
+                        <div class="terminal-content" id="terminal-log">
+                            <div class="term-line">><span class="path"> dev@machine </span> <span class="cmd">npx
+                                    playwright test console-error.spec.ts</span></div>
+                            <div class="term-line info">Running 1 test using 1 worker...</div>
+                            <div class="term-line"> [chromium] › console-error.spec.ts:25 › Frontend Robustness Guard
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- RIGHT PANEL: The Browser (Chrome Style) -->
+        <!-- RIGHT PANEL: Modern Browser Simulator -->
         <div class="browser-panel">
-            <div class="browser-header">
-                <div class="nav-buttons">
+            <div class="browser-frame-header">
+                <div class="browser-controls">
                     <i class="fa-solid fa-arrow-left"></i>
                     <i class="fa-solid fa-arrow-right"></i>
                     <i class="fa-solid fa-rotate-right"></i>
+                    <i class="fa-solid fa-house"></i>
                 </div>
-                <div class="address-bar">
-                    <i class="fa-solid fa-lock"></i> localhost:3000/dashboard
+                <div class="browser-address-input">
+                    <i class="fa-solid fa-lock secure-icon"></i>
+                    <span>app.analytics-dashboard.com/overview</span>
                 </div>
-            </div>
-
-            <div class="browser-viewport">
-                <!-- The Actual Demo UI -->
-                <div class="app-container">
-                    <header class="app-header">
-                        <h2>Analytics Dashboard</h2>
-                        <div class="user-profile">JD</div>
-                    </header>
-
-                    <div class="dashboard-grid">
-                        <div class="stat-card">
-                            <h3>Total Views</h3>
-                            <div class="skeleton-text"></div>
-                        </div>
-                        <div class="stat-card">
-                            <h3>Active Users</h3>
-                            <div class="skeleton-text"></div>
-                        </div>
-                    </div>
-
-                    <div class="action-section">
-                        <p>Latest data is not synced.</p>
-                        <button id="trigger-btn" class="primary-btn">Sync Data Now</button>
-                        <p id="ui-success" class="success-msg hidden">
-                            <i class="fa-solid fa-check-circle"></i> Data Synced Successfully!
-                        </p>
-                    </div>
+                <div class="browser-menu">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
                 </div>
             </div>
 
-            <div class="browser-console-overlay">
-                <div class="overlay-header">Browser DevTools Console</div>
-                <div id="browser-logs"></div>
+            <div class="browser-viewport-content">
+                <!-- Fake Modern SaaS App -->
+                <div class="saas-app">
+                    <!-- Sidebar Navigation -->
+                    <nav class="saas-sidebar">
+                        <div class="saas-logo">
+                            <div class="logo-icon"><i class="fa-solid fa-layer-group"></i></div>
+                            <span>Nexus</span>
+                        </div>
+                        <ul class="saas-nav-links">
+                            <li class="active"><i class="fa-solid fa-chart-pie"></i> Overview</li>
+                            <li><i class="fa-solid fa-users"></i> Audience</li>
+                            <li><i class="fa-solid fa-comments"></i> Engagement</li>
+                            <li><i class="fa-solid fa-wallet"></i> Revenue</li>
+                            <li class="spacer"></li>
+                            <li><i class="fa-solid fa-gear"></i> Settings</li>
+                        </ul>
+                        <div class="saas-user">
+                            <img src="https://ui-avatars.com/api/?name=John+Doe&background=3b82f6&color=fff" alt="User"
+                                class="avatar">
+                            <div class="user-info">
+                                <span class="name">John Doe</span>
+                                <span class="role">Admin</span>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <!-- Main Dashboard Content -->
+                    <main class="saas-main">
+                        <header class="saas-header">
+                            <div class="header-title">
+                                <h1>Dashboard Overview</h1>
+                                <p>Welcome back, John! Here's what's happening today.</p>
+                            </div>
+                            <div class="header-actions">
+                                <button class="btn-secondary"><i class="fa-solid fa-download"></i> Export</button>
+                                <button id="trigger-btn" class="btn-primary"><i class="fa-solid fa-rotate"></i> Sync
+                                    Live Data</button>
+                            </div>
+                        </header>
+
+                        <!-- Toast Notification -->
+                        <div id="toast-notification" class="toast hidden">
+                            <div class="toast-icon"><i class="fa-solid fa-circle-check"></i></div>
+                            <div class="toast-content">
+                                <div class="toast-title">Success</div>
+                                <div class="toast-desc">Data synchronized successfully.</div>
+                            </div>
+                        </div>
+
+                        <!-- Dashboard Stats -->
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon purple"><i class="fa-solid fa-eye"></i></div>
+                                <div class="stat-info">
+                                    <span class="label">Total Views</span>
+                                    <span class="value">245,093</span>
+                                    <span class="trend positive"><i class="fa-solid fa-arrow-trend-up"></i> 12.5%</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon blue"><i class="fa-solid fa-user-plus"></i></div>
+                                <div class="stat-info">
+                                    <span class="label">New Users</span>
+                                    <span class="value">8,542</span>
+                                    <span class="trend positive"><i class="fa-solid fa-arrow-trend-up"></i> 8.2%</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon orange"><i class="fa-solid fa-clock"></i></div>
+                                <div class="stat-info">
+                                    <span class="label">Avg. Session</span>
+                                    <span class="value">4m 32s</span>
+                                    <span class="trend negative"><i class="fa-solid fa-arrow-trend-down"></i>
+                                        1.8%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chart Placeholder -->
+                        <div class="chart-section">
+                            <div class="chart-header">
+                                <h3>Revenue Growth</h3>
+                                <div class="chart-filter">
+                                    <span class="active">7d</span>
+                                    <span>30d</span>
+                                    <span>90d</span>
+                                </div>
+                            </div>
+                            <!-- CSS Grid Chart Mockup -->
+                            <div class="chart-mockup">
+                                <div class="bar" style="height: 40%"></div>
+                                <div class="bar" style="height: 65%"></div>
+                                <div class="bar" style="height: 50%"></div>
+                                <div class="bar" style="height: 85%"></div>
+                                <div class="bar" style="height: 70%"></div>
+                                <div class="bar" style="height: 95%"></div>
+                                <div class="bar" style="height: 80%"></div>
+                            </div>
+                        </div>
+
+                    </main>
+                </div>
+            </div>
+
+            <!-- Browser DevTools -->
+            <div class="devtools-panel">
+                <div class="devtools-tabs">
+                    <span>Elements</span>
+                    <span class="active">Console <span id="error-count" class="badge hidden">0</span></span>
+                    <span>Sources</span>
+                    <span>Network</span>
+                </div>
+                <div class="console-output" id="browser-logs">
+                    <div class="log-entry info"><i class="fa-solid fa-info-circle"></i> [HMR] Waiting for update signal
+                        from WDS...</div>
+                    <div class="log-entry info"><i class="fa-solid fa-info-circle"></i> [Nexus] Analytics initialized
+                        v2.4.0</div>
+                </div>
             </div>
         </div>
 
     </div>
 
-    <!-- Instructions Overlay -->
-    <div class="tutorial-tooltip">
-        Click "Sync Data Now" to see the magic! 🪄
-    </div>
-
-    <script src="script.js?v=2"></script>
+    <script src="script.js?v=3"></script>
 </body>
 
 </html>
