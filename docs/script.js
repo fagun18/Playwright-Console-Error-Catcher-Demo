@@ -1,56 +1,91 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('trigger-bug-btn');
-    const statusDiv = document.getElementById('ui-message');
-    const consoleDiv = document.getElementById('console-logs');
+    // === ELEMENTS ===
+    const triggerBtn = document.getElementById('trigger-btn');
+    const uiSuccessMsg = document.getElementById('ui-success');
 
-    // Utility: Add log to our fake visual console
-    function logToVisualConsole(msg, type = 'info') {
+    // IDE Elements
+    const terminalLog = document.getElementById('terminal-log');
+    const listenerCode = document.getElementById('code-listener');
+    const failCode = document.getElementById('code-fail');
+
+    // Browser Console Elements
+    const browserLogs = document.getElementById('browser-logs');
+
+    // === UTILS ===
+    function logToTerminal(msg, type = 'info') {
         const line = document.createElement('div');
-        line.className = `log-line ${type}`;
-        line.innerText = msg;
-        consoleDiv.appendChild(line);
-        consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        line.className = `term-line ${type}`;
+        line.textContent = msg;
+        terminalLog.appendChild(line);
+        terminalLog.scrollTop = terminalLog.scrollHeight;
     }
 
-    btn.addEventListener('click', () => {
-        // 1. HAPPY PATH: Update UI to look green and good
-        btn.innerHTML = 'Refetching...';
-        btn.disabled = true;
+    function logToBrowserConsole(msg, type = 'log') {
+        const line = document.createElement('div');
+        line.className = `log ${type}`;
+        const icon = type === 'err' ? '❌ ' : 'ℹ️ ';
+        line.textContent = `${icon}${msg}`;
+        browserLogs.appendChild(line);
+        browserLogs.scrollTop = browserLogs.scrollHeight;
+    }
 
+    // === INTERACTION FLOW ===
+    triggerBtn.addEventListener('click', async () => {
+        // Reset state
+        uiSuccessMsg.classList.add('hidden');
+        triggerBtn.disabled = true;
+        triggerBtn.innerText = 'Syncing...';
+
+        // Clear previous runs in terminal somewhat
+        logToTerminal('--------------------------------------------------');
+        logToTerminal('> Performing click action on #sync-btn...', 'info');
+
+        // 1. Simulate UI Success (The Happy Path)
         setTimeout(() => {
-            btn.innerHTML = 'Fetch Dashboard Data';
-            btn.disabled = false;
-            statusDiv.classList.remove('hidden');
+            triggerBtn.innerText = 'Sync Data Now';
+            triggerBtn.disabled = false;
+            uiSuccessMsg.classList.remove('hidden');
 
-            // Log successful UI action
-            logToVisualConsole('> UI Updated: Success Message Visible', 'info');
+            // Log to browser console (invisible to non-devs usually)
+            logToBrowserConsole('UI updated successfully.', 'log');
+        }, 800);
 
-            // 2. SECRET FAILURE: Throw the "silent" errors
-            triggerSilentErrors();
-        }, 600);
-    });
-
-    function triggerSilentErrors() {
+        // 2. TRIGGER THE HIDDEN BUG
         setTimeout(() => {
-            // Throw ReferenceError (The classic "variable not defined" bug)
-            try {
-                // @ts-ignore
-                const x = analytics.trackClick();
-            } catch (e) {
-                // We actually log it to real console so Playwright captures it
-                console.error(`Uncaught ReferenceError: analytics is not defined at clickHandler (index.js:42)`);
+            // Trigger visual activity in IDE to show "Listening"
+            listenerCode.classList.add('active-scan');
 
-                // Show it on our visual console so human users can see what the robot sees
-                logToVisualConsole(`[Error] Uncaught ReferenceError: analytics is not defined`, 'error');
-            }
+            const errorText = "Uncaught ReferenceError: analytics is not defined at updateDashboard (main.js:402)";
 
-            // Fake API 500
+            // Log real error to browser console
+            logToBrowserConsole(errorText, 'err');
+
+            // 3. Playwright Catches It (In the IDE)
             setTimeout(() => {
-                const apiError = `GET http://api.internal/v1/user/tracking 500 (Internal Server Error)`;
-                console.error(apiError);
-                logToVisualConsole(`[Error] ${apiError}`, 'error');
-            }, 100);
+                logToTerminal(`[console] Error: ${errorText}`, 'error');
 
-        }, 100);
-    }
+                // Show the "Listener" catching it
+                setTimeout(() => {
+                    listenerCode.classList.remove('active-scan');
+                    listenerCode.classList.add('active-error');
+
+                    // Show the "AfterEach" failing
+                    setTimeout(() => {
+                        failCode.classList.add('active-error');
+                        logToTerminal('❌ Test failed! Console errors were detected.', 'error');
+                        logToTerminal('--------------------------------------------------', 'error');
+
+                        // Cleanup highlights after a few seconds
+                        setTimeout(() => {
+                            listenerCode.classList.remove('active-error');
+                            failCode.classList.remove('active-error');
+                        }, 4000);
+
+                    }, 1000);
+                }, 500);
+
+            }, 500);
+
+        }, 1200);
+    });
 });

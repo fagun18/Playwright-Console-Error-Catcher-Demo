@@ -4,97 +4,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playwright Console Hunter | Hidden Bug Demo</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Playwright Console Guard - Interactive Demo</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
-    <div class="background-glow"></div>
 
-    <main class="container">
-        <header>
-            <div class="badge">QA Automation Demo</div>
-            <h1>The <span class="gradient-text">Silent Killer</span> Bug</h1>
-            <p class="subtitle">
-                Your UI tests pass. Your screen looks green. <br>
-                But your console is bleeding red.
-            </p>
-        </header>
+    <!-- Main Workspace Container -->
+    <div class="workspace">
 
-        <section class="demo-card glass-panel">
-            <div class="card-header">
-                <div class="status-indicator">
-                    <span class="dot pulse"></span>
-                    <span id="system-status">System Status: Operational</span>
+        <!-- LEFT PANEL: The IDE (VS Code Style) -->
+        <div class="ide-panel">
+            <div class="ide-header">
+                <div class="window-controls">
+                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                </div>
+                <div class="tab inactive">explorer</div>
+                <div class="tab active"><i class="fa-solid fa-file-code"></i> console-error.spec.ts</div>
+            </div>
+
+            <div class="ide-body">
+                <div class="line-numbers">
+                    1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15
+                </div>
+                <!-- Code Snippet -->
+                <pre class="code-content"><code class="language-typescript"><span class="keyword">test</span>.<span class="function">describe</span>(<span class="string">'Frontend Guard'</span>, () => {
+  <span class="keyword">const</span> errors = [];
+
+  <span class="comment">// 1. Listen for console errors</span>
+  <span class="keyword">test</span>.<span class="function">beforeEach</span>(<span class="keyword">async</span> ({ page }) => {
+    page.<span class="function">on</span>(<span class="string">'console'</span>, <span class="param">msg</span> => {
+<div class="code-highlight" id="code-listener">      <span class="keyword">if</span> (msg.<span class="function">type</span>() === <span class="string">'error'</span>) {
+        errors.<span class="function">push</span>(msg.<span class="function">text</span>());
+      }</div>    });
+  });
+
+  <span class="comment">// 2. Fail test if errors found</span>
+  <span class="keyword">test</span>.<span class="function">afterEach</span>(() => {
+<div class="code-highlight" id="code-fail">    <span class="keyword">if</span> (errors.<span class="property">length</span> > 0) {
+      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">`Caught ${errors.length} errors!`</span>);
+    }</div>  });
+});</code></pre>
+            </div>
+
+            <!-- Fake Terminal -->
+            <div class="terminal-panel">
+                <div class="terminal-header">
+                    <span>TERMINAL</span>
+                    <span>DEBUG CONSOLE</span>
+                </div>
+                <div class="terminal-output" id="terminal-log">
+                    <div class="term-line">><span class="path"> user@dev </span> <span class="cmd">npx playwright
+                            test</span></div>
+                    <div class="term-line info">Running 1 test using 1 worker...</div>
+                    <div class="term-line"> [chromium] › console-error.spec.ts:25 › Frontend Guard</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: The Browser (Chrome Style) -->
+        <div class="browser-panel">
+            <div class="browser-header">
+                <div class="nav-buttons">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <i class="fa-solid fa-rotate-right"></i>
+                </div>
+                <div class="address-bar">
+                    <i class="fa-solid fa-lock"></i> localhost:3000/dashboard
                 </div>
             </div>
 
-            <div class="card-body">
-                <div class="illustration">
-                    <div class="server-icon">
-                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
-                            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
-                            <line x1="6" y1="6" x2="6.01" y2="6"></line>
-                            <line x1="6" y1="18" x2="6.01" y2="18"></line>
-                        </svg>
+            <div class="browser-viewport">
+                <!-- The Actual Demo UI -->
+                <div class="app-container">
+                    <header class="app-header">
+                        <h2>Analytics Dashboard</h2>
+                        <div class="user-profile">JD</div>
+                    </header>
+
+                    <div class="dashboard-grid">
+                        <div class="stat-card">
+                            <h3>Total Views</h3>
+                            <div class="skeleton-text"></div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Active Users</h3>
+                            <div class="skeleton-text"></div>
+                        </div>
                     </div>
-                    <div class="connection-line"></div>
-                    <div class="user-icon">
-                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </div>
-                </div>
 
-                <div class="action-area">
-                    <p>Click below to fetch user dashboard data.</p>
-                    <button id="trigger-bug-btn" class="glow-button">
-                        Fetch Dashboard Data
-                    </button>
-                    <div id="ui-message" class="hidden success-message">
-                        ✅ Data Loaded Successfully! (View Updated)
+                    <div class="action-section">
+                        <p>Latest data is not synced.</p>
+                        <button id="trigger-btn" class="primary-btn">Sync Data Now</button>
+                        <p id="ui-success" class="success-msg hidden">
+                            <i class="fa-solid fa-check-circle"></i> Data Synced Successfully!
+                        </p>
                     </div>
                 </div>
             </div>
 
-            <div class="console-preview">
-                <div class="console-header">
-                    <span>Developer Console (Hidden from regular users)</span>
-                </div>
-                <div class="console-body" id="console-logs">
-                    <div class="log-line info">> System initialized...</div>
-                </div>
+            <div class="browser-console-overlay">
+                <div class="overlay-header">Browser DevTools Console</div>
+                <div id="browser-logs"></div>
             </div>
-        </section>
+        </div>
 
-        <footer class="glass-panel info-panel">
-            <h3>How Playwright Catches This</h3>
-            <p>
-                In a normal test, checking for "Data Loaded Successfully" would <b>PASS</b>.
-                But with our <code>console</code> listener, the test fails immediately when the hidden errors appear.
-            </p>
-            <div class="links">
-                <a href="https://github.com/fagun18/Playwright-Console-Error-Catcher-Demo" target="_blank"
-                    class="github-link">
-                    <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z">
-                        </path>
-                    </svg>
-                    View on GitHub
-                </a>
-            </div>
-        </footer>
-    </main>
+    </div>
+
+    <!-- Instructions Overlay -->
+    <div class="tutorial-tooltip">
+        Click "Sync Data Now" to see the magic! 🪄
+    </div>
+
     <script src="script.js"></script>
 </body>
 
