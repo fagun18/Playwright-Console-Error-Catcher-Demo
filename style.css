@@ -438,6 +438,15 @@ body {
     flex: 1;
     background: var(--saas-bg);
     display: flex;
+    overflow: hidden;
+    /* Ensure no double scrollbars */
+}
+
+.saas-app {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 /* Sidebar */
