@@ -4,6 +4,12 @@ This repository demonstrates a **simple but powerful trick** to catch hidden fro
 
 Your UI tests can pass ✅, but the browser console might be full of errors 🔥. This project shows how to fail your Playwright tests if any console errors occur, ensuring no silent failures reach production.
 
+<div align="center">
+  <h3>
+    <a href="https://fagun18.github.io/Playwright-Console-Error-Catcher-Demo/">🔴 View Live Hidden Bug Demo</a>
+  </h3>
+</div>
+
 ## 🌟 The Problem
 
 Typical UI tests check if elements are visible or clickable. However, they often miss:
