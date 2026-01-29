@@ -50,9 +50,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // === INTERACTION FLOW ===
     let isRunning = false;
 
+    // Add pulse initially
+    triggerBtn.classList.add('pulse-active');
+    const hintOverlay = document.getElementById('interaction-hint');
+
     triggerBtn.addEventListener('click', async () => {
         if (isRunning) return;
         isRunning = true;
+
+        // Remove hints
+        triggerBtn.classList.remove('pulse-active');
+        if (hintOverlay) hintOverlay.classList.add('hidden');
 
         // Reset visual state
         toast.classList.add('hidden');

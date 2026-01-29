@@ -557,6 +557,7 @@ body {
 }
 
 .saas-header {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -871,4 +872,84 @@ body {
     color: #d93025;
     background: #fff0f0;
     border-left: 2px solid #d93025;
+}
+
+/* Interaction Hint Overlay */
+.hint-overlay {
+    position: absolute;
+    top: 55%;
+    right: 20%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    animation: floatHint 2s ease-in-out infinite;
+    transition: opacity 0.5s;
+}
+
+.hint-overlay.hidden {
+    opacity: 0;
+}
+
+.hint-text {
+    background: #111827;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hint-text span {
+    font-size: 1.2em;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+/* Pulse effect on the button itself */
+#trigger-btn {
+    position: relative;
+    overflow: visible;
+}
+
+#trigger-btn.pulse-active::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border: 2px solid var(--saas-primary);
+    border-radius: 12px;
+    animation: pulseRing 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+@keyframes pulseRing {
+    0% {
+        transform: scale(0.9);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.4);
+        opacity: 0;
+    }
+}
+
+@keyframes floatHint {
+
+    0%,
+    100% {
+        transform: translate(0, -50%);
+    }
+
+    50% {
+        transform: translate(10px, -50%);
+    }
 }
