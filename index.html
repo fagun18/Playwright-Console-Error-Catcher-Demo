@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playwright Console Guard - Interactive Demo</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=2">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Main Workspace Container -->
+    <div class="workspace">
+
+        <!-- LEFT PANEL: The IDE (VS Code Style) -->
+        <div class="ide-panel">
+            <div class="ide-header">
+                <div class="window-controls">
+                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                </div>
+                <div class="tab inactive">explorer</div>
+                <div class="tab active"><i class="fa-solid fa-file-code"></i> console-error.spec.ts</div>
+            </div>
+
+            <div class="ide-body">
+                <div class="line-numbers">
+                    1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15
+                </div>
+                <!-- Code Snippet -->
+                <pre class="code-content"><code class="language-typescript"><span class="keyword">test</span>.<span class="function">describe</span>(<span class="string">'Frontend Guard'</span>, () => {
+  <span class="keyword">const</span> errors = [];
+
+  <span class="comment">// 1. Listen for console errors</span>
+  <span class="keyword">test</span>.<span class="function">beforeEach</span>(<span class="keyword">async</span> ({ page }) => {
+    page.<span class="function">on</span>(<span class="string">'console'</span>, <span class="param">msg</span> => {
+<div class="code-highlight" id="code-listener">      <span class="keyword">if</span> (msg.<span class="function">type</span>() === <span class="string">'error'</span>) {
+        errors.<span class="function">push</span>(msg.<span class="function">text</span>());
+      }</div>    });
+  });
+
+  <span class="comment">// 2. Fail test if errors found</span>
+  <span class="keyword">test</span>.<span class="function">afterEach</span>(() => {
+<div class="code-highlight" id="code-fail">    <span class="keyword">if</span> (errors.<span class="property">length</span> > 0) {
+      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">`Caught ${errors.length} errors!`</span>);
+    }</div>  });
+});</code></pre>
+            </div>
+
+            <!-- Fake Terminal -->
+            <div class="terminal-panel">
+                <div class="terminal-header">
+                    <span>TERMINAL</span>
+                    <span>DEBUG CONSOLE</span>
+                </div>
+                <div class="terminal-output" id="terminal-log">
+                    <div class="term-line">><span class="path"> user@dev </span> <span class="cmd">npx playwright
+                            test</span></div>
+                    <div class="term-line info">Running 1 test using 1 worker...</div>
+                    <div class="term-line"> [chromium] › console-error.spec.ts:25 › Frontend Guard</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: The Browser (Chrome Style) -->
+        <div class="browser-panel">
+            <div class="browser-header">
+                <div class="nav-buttons">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <i class="fa-solid fa-rotate-right"></i>
+                </div>
+                <div class="address-bar">
+                    <i class="fa-solid fa-lock"></i> localhost:3000/dashboard
+                </div>
+            </div>
+
+            <div class="browser-viewport">
+                <!-- The Actual Demo UI -->
+                <div class="app-container">
+                    <header class="app-header">
+                        <h2>Analytics Dashboard</h2>
+                        <div class="user-profile">JD</div>
+                    </header>
+
+                    <div class="dashboard-grid">
+                        <div class="stat-card">
+                            <h3>Total Views</h3>
+                            <div class="skeleton-text"></div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Active Users</h3>
+                            <div class="skeleton-text"></div>
+                        </div>
+                    </div>
+
+                    <div class="action-section">
+                        <p>Latest data is not synced.</p>
+                        <button id="trigger-btn" class="primary-btn">Sync Data Now</button>
+                        <p id="ui-success" class="success-msg hidden">
+                            <i class="fa-solid fa-check-circle"></i> Data Synced Successfully!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="browser-console-overlay">
+                <div class="overlay-header">Browser DevTools Console</div>
+                <div id="browser-logs"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Instructions Overlay -->
+    <div class="tutorial-tooltip">
+        Click "Sync Data Now" to see the magic! 🪄
+    </div>
+
+    <script src="script.js?v=2"></script>
+</body>
+
+</html>
